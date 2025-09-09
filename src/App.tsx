@@ -56,9 +56,15 @@ export const App = () => {
 
 	const [logs, setLogs] = useState<Log[]>([])
 
-	const chances = difficulty.chances - logs.length
-	const guesses = logs.filter((x) => x.type === 'guess').length
-	const won = logs.some((x) => x.type === 'win')
+	const chances = useMemo(
+		() => difficulty.chances - logs.length,
+		[difficulty, logs]
+	)
+	const guesses = useMemo(
+		() => logs.filter((x) => x.type === 'guess').length,
+		[logs]
+	)
+	const won = useMemo(() => logs.some((x) => x.type === 'win'), [logs])
 
 	const options = useMemo(() => {
 		const len = difficulty.options
@@ -75,8 +81,6 @@ export const App = () => {
 			dict.filter((x) => getLikeness(x, answer) === 0)
 		).slice(0, len - matching)
 
-		// console.log(matchingOptions, unmatchingOptions)
-
 		return shuffle([...matchingOptions, ...unmatchingOptions, answer])
 	}, [answer, difficulty])
 
@@ -85,12 +89,12 @@ export const App = () => {
 		setLogs([])
 	}, [])
 
-	const select = (option: string) => {
+	const selectOption = (option: string) => {
 		const likeness = getLikeness(answer, option)
 
 		setLogs((a) => [
 			...a,
-			likeness === 5
+			likeness === answer.length
 				? {
 						type: 'win',
 						value: option,
@@ -120,7 +124,7 @@ export const App = () => {
 						<div className="flex items-center gap-2">
 							<Select
 								value={difficulty.name}
-								onValueChange={(name) => selectDifficulty(name)}
+								onValueChange={selectDifficulty}
 							>
 								<SelectTrigger>
 									<SelectValue placeholder="Theme" />
@@ -148,7 +152,6 @@ export const App = () => {
 						</div>
 						<div className="flex items-center gap-2">
 							{Array.from({ length: guesses }).map((_) => (
-								// <div className="size-3 bg-muted-foreground" />
 								<XIcon className="size-4 text-destructive" />
 							))}
 
@@ -157,7 +160,6 @@ export const App = () => {
 							)}
 
 							{Array.from({ length: chances }).map((_) => (
-								// <div className="size-3 bg-muted-foreground" />
 								<DotIcon className="size-4 text-muted-foreground" />
 							))}
 						</div>
@@ -172,7 +174,7 @@ export const App = () => {
 								{options.map((option) => (
 									<Button
 										key={option}
-										onClick={() => select(option)}
+										onClick={() => selectOption(option)}
 										className="text-sm font-medium font-mono"
 										variant="ghost"
 										disabled={won}

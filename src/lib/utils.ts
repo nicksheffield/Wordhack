@@ -6,10 +6,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getLikeness = (a: string, b: string) => {
-	const other = b.split('')
+	const word = b.split('')
 	return a
 		.split('')
-		.reduce((acc, letter, i) => +(letter === other[i]) + acc, 0)
+		.reduce((acc, letter, i) => +(letter === word[i]) + acc, 0)
 }
 
 // https://stackoverflow.com/a/48083382

@@ -119,15 +119,13 @@ export const App = () => {
 	return (
 		<div className="flex items-center flex-col gap-6 sm:py-6 bg-white sm:bg-muted min-h-screen">
 			<div className="flex flex-col gap-6 max-w-2xl w-full relative">
-				<div className="absolute -top-10 right-0">
-					<ThemeToggle />
-				</div>
-
 				<Card className=" sm:rounded-xl rounded-none border-0 shadow-none sm:border sm:shadow-sm z-20 relative">
 					<CardHeader>
 						<div className="flex justify-between items-center">
 							<CardTitle>Wordhack</CardTitle>
 							<div className="flex items-center gap-2">
+								<ThemeToggle />
+
 								<Select
 									value={difficulty.name}
 									onValueChange={selectDifficulty}

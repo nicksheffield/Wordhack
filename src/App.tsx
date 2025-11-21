@@ -117,7 +117,7 @@ export const App = () => {
 	}
 
 	return (
-		<div className="flex items-center flex-col justify-center gap-6 sm:py-6 bg-white sm:bg-muted min-h-screen">
+		<div className="flex items-center flex-col gap-6 sm:py-6 bg-white sm:bg-muted min-h-screen">
 			<div className="flex flex-col gap-6 max-w-2xl w-full relative">
 				<div className="absolute -top-10 right-0">
 					<ThemeToggle />
